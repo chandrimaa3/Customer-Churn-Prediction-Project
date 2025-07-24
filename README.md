@@ -1,17 +1,17 @@
-# Customer Churn Prediction for a Telecom Company 
+# Telecom Customer Churn Prediction 
 
-## Project Overview
+## 1. Project Overview
 
-This project aims to solve a critical business problem for a telecom company: **customer churn**. By leveraging machine learning, we build a predictive model to identify customers who are most likely to cancel their subscriptions. The ultimate goal is to enable the company to take proactive steps, such as offering targeted incentives, to retain these at-risk customers and reduce revenue loss.
+This project addresses a critical business problem for a telecom company: **customer churn**. By leveraging machine learning, it builds a predictive model to identify customers who are most likely to cancel their subscriptions. The ultimate goal is to enable the company to take proactive steps, such as offering targeted incentives, to retain these at-risk customers and reduce revenue loss.
 
-This repository contains the complete Python script for the end-to-end data science workflow, from data cleaning and exploratory analysis to model training, evaluation, and interpretation.
+This repository contains the complete Python script for an end-to-end data science workflow, from data cleaning and exploratory analysis to model training, evaluation, and interpretation.
 
 ---
 
-## Dataset
+## 2. Dataset
 
-The dataset used for this project is the **Telco Customer Churn** dataset, which is publicly available on Kaggle. It contains information about 7,043 customers and includes details on:
-* **Customer Demographics:** Gender, age range, and whether they have partners and dependents.
+The dataset used for this project is the **Telco Customer Churn** dataset from Kaggle. It contains information about 7,043 customers and includes details on:
+* **Customer Demographics:** Gender, senior citizen status, partner, and dependents.
 * **Subscribed Services:** Phone, multiple lines, internet, online security, online backup, etc.
 * **Account Information:** Customer tenure, contract type, payment method, and monthly/total charges.
 * **Target Variable:** The `Churn` column, which indicates whether the customer left within the last month.
@@ -20,55 +20,55 @@ The dataset used for this project is the **Telco Customer Churn** dataset, which
 
 ---
 
-## Tech Stack & Libraries
+## 3. Tech Stack & Libraries
 
 * **Python 3.x**
-* **Pandas:** For data manipulation and analysis.
-* **NumPy:** For numerical operations.
+* **Pandas & NumPy:** For data manipulation and numerical operations.
 * **Matplotlib & Seaborn:** For data visualization and exploratory data analysis.
-* **Scikit-learn:** For data preprocessing, model building, and evaluation.
+* **Scikit-learn:** For data preprocessing, building machine learning models (`LogisticRegression`, `RandomForestClassifier`, `GradientBoostingClassifier`), and model evaluation.
 
 ---
 
-## Project Workflow
+## 4. Project Workflow
 
 The project follows a structured data science methodology:
 
-1.  **Data Loading & Cleaning:** The dataset was loaded and inspected. The `TotalCharges` column was converted to a numeric type, and missing values were imputed using the median. The non-predictive `customerID` was dropped.
+1.  **Data Loading & Cleaning:** The dataset was loaded and inspected. The `TotalCharges` column was converted to a numeric type, and missing values were imputed using the column's **median**. The non-predictive `customerID` was dropped.
 
 2.  **Exploratory Data Analysis (EDA):** Visualizations were created to understand the relationships between different features and customer churn. Key insights revealed that customers on **month-to-month contracts** and those with **shorter tenures** were significantly more likely to churn.
 
 3.  **Feature Engineering & Preprocessing:** A `ColumnTransformer` pipeline was created to systematically handle data preprocessing.
-    * **Numerical Features:** Scaled using `StandardScaler`.
-    * **Categorical Features:** Converted into a numerical format using `OneHotEncoder`.
+    * **Numerical Features** (`SeniorCitizen`, `tenure`, `MonthlyCharges`, `TotalCharges`) were scaled using `StandardScaler`.
+    * **Categorical Features** (like `Contract`, `InternetService`, etc.) were converted into a numerical format using `OneHotEncoder`.
 
-4.  **Model Building & Training:** Several classification models were trained to establish a baseline performance:
+4.  **Model Building & Training:** The data was split into training (80%) and testing (20%) sets. Several classification models were trained to establish a performance baseline:
     * Logistic Regression
-    * Random Forest
+    * Random Forest Classifier
     * Gradient Boosting Classifier
 
-5.  **Model Evaluation:** Models were evaluated based on their performance on the test set. Key metrics included **Classification Report** (Precision, Recall, F1-score) and **ROC AUC Score**, which is suitable for imbalanced datasets.
+5.  **Model Evaluation:** Models were evaluated on the test set using key metrics like the **Classification Report** (Precision, Recall, F1-score) and the **ROC AUC Score**, which is particularly suitable for imbalanced datasets like churn prediction.
 
-6.  **Hyperparameter Tuning:** The best-performing baseline model (Gradient Boosting) was selected for optimization. `GridSearchCV` was used to search for the best combination of hyperparameters, further improving the model's predictive power.
-
----
-
-## Key Results
-
-* The final **Tuned Gradient Boosting Classifier** emerged as the best model with a **ROC AUC score of approximately 0.84** on the test set.
-* **Feature Importance Analysis** revealed the top predictors of churn:
-    1.  **Contract Type:** Month-to-month contracts are the strongest indicator.
-    2.  **Tenure:** Customers with shorter tenure are at a higher risk.
-    3.  **Total Charges & Monthly Charges:** Higher charges contribute to churn risk.
+6.  **Hyperparameter Tuning:** Based on the initial results, the **Gradient Boosting Classifier** was selected for optimization. `GridSearchCV` was used to systematically search for the best combination of hyperparameters (`n_estimators`, `learning_rate`, `max_depth`), further improving the model's predictive power.
 
 ---
 
-## How to Run This Project
+## 5. Key Results
+
+* The final **Tuned Gradient Boosting Classifier** emerged as the best model with a **ROC AUC score of approximately 0.846** on the unseen test data.
+* **Feature Importance Analysis** from the final model revealed the top predictors of churn:
+    1.  **Contract Type:** `Contract_Month-to-month` was the single strongest indicator.
+    2.  **Tenure:** Shorter customer tenure is a high-risk factor.
+    3.  **Internet Service:** `InternetService_Fiber optic` was a significant predictor.
+    4.  **Total Charges:** The total amount charged to the customer.
+
+---
+
+## 6. How to Run This Project
 
 1.  **Clone the repository:**
     ```bash
-    git clone [https://github.com/your-username/your-repo-name.git](https://github.com/your-username/your-repo-name.git)
-    cd your-repo-name
+    git clone [https://github.com/your-username/your-repository-name.git](https://github.com/your-username/your-repository-name.git)
+    cd your-repository-name
     ```
 
 2.  **Create a virtual environment (recommended):**
@@ -78,26 +78,33 @@ The project follows a structured data science methodology:
     ```
 
 3.  **Install the required libraries:**
-    A `requirements.txt` file is provided.
+    Create a `requirements.txt` file with the following content:
+    ```
+    pandas
+    numpy
+    matplotlib
+    seaborn
+    scikit-learn
+    ```
+    Then run the installation command:
     ```bash
     pip install -r requirements.txt
     ```
-    *(Note: To generate this file yourself, you can run `pip freeze > requirements.txt` after installing the libraries manually.)*
 
-4.  **Run the Python script:**
+4.  **Run the Python script or Jupyter Notebook:**
     ```bash
-    python churn_prediction.py
+    python your_script_name.py
     ```
-    The script will execute all the steps and print the results and visualizations.
+    or open and run the `Customer Churn Prediction Project.ipynb` file in a Jupyter environment. The script will execute all the steps and print the evaluation results and visualizations.
 
 ---
 
-## Conclusion & Business Insights
+## 7. Conclusion & Business Insights
 
-The predictive model developed in this project can be a valuable asset for the telecom company. By integrating this model into their systems, the company can:
+The predictive model developed in this project can be a valuable asset for the telecom company. By integrating this model, the business can:
 
-* **Proactively Identify At-Risk Customers:** Generate a daily or weekly list of customers with a high probability of churning.
+* **Proactively Identify At-Risk Customers:** Generate a regular list of customers with a high probability of churning.
 * **Implement Targeted Retention Strategies:** The marketing team can use this list to offer personalized discounts, plan upgrades, or other incentives to encourage customers to stay.
 * **Optimize Marketing Spend:** Focus retention efforts on customers who are most likely to leave, leading to a higher return on investment for marketing campaigns.
 
-The key takeaway is that focusing on customers with **short tenures** and on **month-to-month contracts** is crucial for reducing overall churn.
+The key business recommendation is to focus retention efforts on customers with **short tenures** who are on **month-to-month contracts**, as they represent the highest risk segment.
