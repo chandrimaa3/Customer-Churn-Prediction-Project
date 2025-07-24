@@ -1,4 +1,4 @@
-# Customer Churn Prediction for a Telecom Company 📊
+# Customer Churn Prediction for a Telecom Company 
 
 ## Project Overview
 
